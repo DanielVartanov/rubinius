@@ -36,6 +36,7 @@ class Proc
   end
 
   attr_accessor :block
+  attr_accessor :bound_method
 
   def binding
     bind = Binding.setup @block.scope, @block.method, @block.method.scope
@@ -55,6 +56,11 @@ class Proc
   end
 
   def arity
+    if @bound_method
+      arity = @bound_method.arity
+      arity < 0 ? -1 : arity
+    end
+
     @block.arity
   end
 
